@@ -12,7 +12,7 @@ jobs:
     - name: Comment on the new issue if it has specific labels
       uses: actions/github-script@v6
       with:
-        github-token: ${{ secrets.PAT }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const issueNumber = context.issue.number;
           const issueLabels = context.payload.issue.labels.map(label => label.name);
