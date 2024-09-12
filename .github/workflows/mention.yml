@@ -1,0 +1,34 @@
+name: Comment on New Issue with Specific Labels
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Comment on the new issue if it has specific labels
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const issueNumber = context.issue.number;
+          const issueLabels = context.payload.issue.labels.map(label => label.name);
+          const requiredLabels = ["bug", "enhancement"]; // Replace with your specific labels
+
+          const hasRequiredLabels = requiredLabels.every(label => issueLabels.includes(label));
+
+          if (hasRequiredLabels) {
+            const commentBody = "Thank you for opening this issue with the required labels! We will look into it shortly. @clown-car/Crazies";
+            await github.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: commentBody
+            });
+          }
