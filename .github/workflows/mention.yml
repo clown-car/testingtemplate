@@ -19,7 +19,7 @@ jobs:
         script: |
           const issueNumber = context.issue.number;
           const issueLabels = context.payload.issue.labels.map(label => label.name);
-          const requiredLabels = ["bug", "enhancement"]; // Replace with your specific labels
+          const requiredLabels = ["bug"]; // Replace with your specific labels
 
           const hasRequiredLabels = requiredLabels.every(label => issueLabels.includes(label));
 
